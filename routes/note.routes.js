@@ -10,10 +10,10 @@ try {
   
       const note = new NoteModel(payload)
       await note.save()
-      res.status(200).json({msg:"new note has been added"})
+      res.status(200).send({"msg":"new note has been added"})
  
 } catch (error) {
-    res.status(4000).json({err:error})
+    res.status(4000).send({"err":error})
 }
 
 })
@@ -21,9 +21,9 @@ try {
 noteRouter.get("/getnote",async(req,res)=>{
     try {
         const note =await NoteModel.find({username:req.body.username})
-        res.status(200).json(note)
+        res.status(200).send(note)
     } catch (error) {
-        res.status(400).json({err:error})
+        res.status(400).send({"err":error})
     }
 })
 
@@ -35,13 +35,13 @@ noteRouter.patch("/update/:noteID",async(req,res)=>{
         if(req.body.userID===note.userID){
             
         await NoteModel.findByIdAndUpdate({_id:noteID},payload)
-        res.status(200).json({msg:`The note with ID:${noteID}has been  update`})   
+        res.status(200).send({"msg":`The note with ID:${noteID}has been  update`})   
         }else{
-            res.status(200).json({msg:"You are not authorized to update other content"})
+            res.status(200).send({"msg":"You are not authorized to update other content"})
         }
         
     } catch (error) {
-        res.status(400).json(error)
+        res.status(400).send(error)
     }
 })
 
@@ -51,12 +51,12 @@ noteRouter.delete("/delete/:noteID",async(req,res)=>{
   try {
     if(req.body.userID===note.userID){
         await NoteModel.findByIdAndDelete({_id:noteID})
-        res.status(200).json({msg:`The note ID:${noteID} deleted`})
+        res.status(200).send({"msg":`The note ID:${noteID} deleted`})
     }else{
-        res.status(200).json({msg:"ypu are not authprized"})
+        res.status(200).send({"msg":"ypu are not authprized"})
     }
   } catch (error) {
-    res.status(400).json({err:error})
+    res.status(400).send({"err":error})
   }
 })
 module.exports={
