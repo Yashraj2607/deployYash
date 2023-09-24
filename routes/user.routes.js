@@ -10,10 +10,10 @@ try {
     bcrypt.hash(pass, 5, async(err, hash)=> {
       const user = new UserModel({username,email,pass:hash})
       await user.save()
-      res.status(200).send({"msg":"A new user has been register"})
+      res.status(200).json({msg:"A new user has been register"})
     });
 } catch (error) {
-    res.status(4000).send({"err":error})
+    res.status(4000).json({err:error})
 }
 
 })
@@ -32,17 +32,17 @@ try {
               const token=jwt.sign({userID:user._id,username:user.username }, 'masai',{expiresIn:"11h"})
             
                if(result){
-                res.status(200).send({"msg":"Login successfull","token":token})
+                res.status(200).json({msg:"Login successfull",token})
                }else{
-                res.status(200).send({"msg":"wrong Credentials"})
+                res.status(200).json({msg:"wrong Credentials"})
                }
             })
            
           }  else{
-            res.status(200).send({"msg":"wrong Credentials"})
+            res.status(200).json({msg:"wrong Credentials"})
           }
         } catch (err) {
-          res.status(400).send({"error":err}) 
+          res.status(400).json({error:err}) 
         }
     })
 
